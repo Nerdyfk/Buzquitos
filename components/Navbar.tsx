@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -11,9 +12,16 @@ export default function Navbar() {
   return (
     <header className="section-wrap relative z-30 flex items-center justify-between py-4 sm:py-5">
       <a href="#home" className="flex items-center gap-2.5 sm:gap-3">
-        <span className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center border-2 border-[#171820] bg-[#f6d52b] text-lg sm:text-xl font-black shadow-[3px_3px_0_#171820]">
-          B.
-        </span>
+        <div className="relative h-9 w-9 sm:h-10 sm:w-10 overflow-hidden rounded-md border-2 border-[#171820] bg-[#f6d52b] shadow-[3px_3px_0_#171820] shrink-0">
+          <Image
+            src="/logo.png"
+            alt="Buzquitos Logo"
+            width={40}
+            height={40}
+            className="h-full w-full object-cover"
+            priority
+          />
+        </div>
         <span className="text-xs sm:text-sm font-black tracking-tight">
           {name.toUpperCase()}
           <small className="block text-[8px] sm:text-[9px] font-medium tracking-[.18em] text-[#394127]">

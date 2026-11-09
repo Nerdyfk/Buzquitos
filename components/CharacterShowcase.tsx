@@ -3,16 +3,15 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Maximize2, X, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react';
 
 const CHARACTERS = [
   { id: 1, name: 'Buzquito', src: '/characters/buzquito-1.png' },
   { id: 2, name: 'Buzquito', src: '/characters/buzquito-2.png' },
   { id: 3, name: 'Buzquito', src: '/characters/buzquito-3.png' },
-  { id: 4, name: 'Buzquito', src: '/characters/buzquito-4.png' },
-  { id: 5, name: 'Buzquito', src: '/characters/buzquito-5.png' },
-  { id: 6, name: 'Buzquito', src: '/characters/buzquito-6.png' },
-  { id: 7, name: 'Buzquito', src: '/characters/buzquito-7.png' }
+  { id: 4, name: 'Buzquito', src: '/characters/buzquito-5.png' },
+  { id: 5, name: 'Buzquito', src: '/characters/buzquito-6.png' },
+  { id: 6, name: 'Buzquito', src: '/characters/buzquito-7.png' }
 ];
 
 export default function CharacterShowcase() {
@@ -119,7 +118,7 @@ export default function CharacterShowcase() {
 
           {/* Top-Right Badge */}
           <div className="absolute right-2 top-2 z-20 border-2 border-[#171820] bg-[#f6d52b] px-2 py-1 font-mono text-[9px] font-bold shadow-[2px_2px_0_#171820]">
-            5,555 PFPS ✦
+            5,555 PFPS
           </div>
         </div>
 
@@ -152,8 +151,7 @@ export default function CharacterShowcase() {
 
         {/* Bottom Status Bar */}
         <div className="mt-3 flex items-center justify-between border-2 border-[#171820] bg-[#171820] px-3 py-2 text-white">
-          <span className="font-mono text-[10px] sm:text-[11px] text-[#c2ed55] flex items-center gap-1.5">
-            <Sparkles size={11} />
+          <span className="font-mono text-[10px] sm:text-[11px] text-[#c2ed55] font-bold tracking-wider">
             SWAPABLE &amp; VIEWABLE
           </span>
           <span className="font-mono text-[10px] sm:text-xs text-white/70">
