@@ -17,8 +17,8 @@ const items = [
     'This art is inspired by Mosquitos — capturing playful, character-driven mosquito-inspired pixel personas with distinct styles, bold traits, and big personalities.'
   ],
   [
-    'Does submitting guarantee a whitelist spot?',
-    'No. Submitting an application enters your wallet and proof into our review system. Submission does not guarantee whitelist allocation.'
+    'When will whitelist winners be announced?',
+    'Official whitelist selections and mint updates will be announced directly on our official X account (@Buzquitos).'
   ],
   [
     'What is the mint price and supply?',

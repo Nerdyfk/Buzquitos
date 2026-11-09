@@ -6,13 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Maximize2, X, Sparkles } from 'lucide-react';
 
 const CHARACTERS = [
-  { id: 1, name: 'Buzquito #001', src: '/characters/buzquito-1.png' },
-  { id: 2, name: 'Buzquito #002', src: '/characters/buzquito-2.png' },
-  { id: 3, name: 'Buzquito #003', src: '/characters/buzquito-3.png' },
-  { id: 4, name: 'Buzquito #004', src: '/characters/buzquito-4.png' },
-  { id: 5, name: 'Buzquito #005', src: '/characters/buzquito-5.png' },
-  { id: 6, name: 'Buzquito #006', src: '/characters/buzquito-6.png' },
-  { id: 7, name: 'Buzquito #007', src: '/characters/buzquito-7.png' }
+  { id: 1, name: 'Buzquito', src: '/characters/buzquito-1.png' },
+  { id: 2, name: 'Buzquito', src: '/characters/buzquito-2.png' },
+  { id: 3, name: 'Buzquito', src: '/characters/buzquito-3.png' },
+  { id: 4, name: 'Buzquito', src: '/characters/buzquito-4.png' },
+  { id: 5, name: 'Buzquito', src: '/characters/buzquito-5.png' },
+  { id: 6, name: 'Buzquito', src: '/characters/buzquito-6.png' },
+  { id: 7, name: 'Buzquito', src: '/characters/buzquito-7.png' }
 ];
 
 export default function CharacterShowcase() {
@@ -154,10 +154,10 @@ export default function CharacterShowcase() {
         <div className="mt-3 flex items-center justify-between border-2 border-[#171820] bg-[#171820] px-3 py-2 text-white">
           <span className="font-mono text-[10px] sm:text-[11px] text-[#c2ed55] flex items-center gap-1.5">
             <Sparkles size={11} />
-            SWAPABLE & VIEWABLE
+            SWAPABLE &amp; VIEWABLE
           </span>
           <span className="font-mono text-[10px] sm:text-xs text-white/70">
-            [ 00{current.id} — 5555 ]
+            [ 5,555 PFPS ]
           </span>
         </div>
       </div>
@@ -182,10 +182,7 @@ export default function CharacterShowcase() {
               {/* Modal Header */}
               <div className="flex items-center justify-between border-b-2 border-[#171820] pb-3">
                 <div>
-                  <div className="font-mono text-xs font-bold text-[#e42c24]">
-                    MOSQUITO PFP #{String(current.id).padStart(3, '0')}
-                  </div>
-                  <h3 className="text-xl font-black">{current.name}</h3>
+                  <h3 className="text-xl font-black">Buzquito</h3>
                 </div>
                 <button
                   onClick={() => setModalOpen(false)}

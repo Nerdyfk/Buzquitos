@@ -42,7 +42,7 @@ export default async function Home() {
 
           <p className="mt-4 sm:mt-5 max-w-[480px] text-sm sm:text-base lg:text-lg font-medium leading-relaxed text-[#394127]">
             <strong>{collection}</strong> is a character-driven 5,555 pixel-art <strong>PFP (Profile Picture) collection</strong>.
-            Inspired by mosquitoes with small pixels, bold personalities, and an exclusive community on <strong>ROBINHOOD</strong>.
+            Small pixels, bold personalities, and an exclusive community on <strong>ROBINHOOD</strong>.
           </p>
 
           <div className="mt-6 sm:mt-7 flex flex-col sm:flex-row flex-wrap gap-3">
@@ -64,7 +64,7 @@ export default async function Home() {
             </div>
             <div className="text-xs font-semibold leading-tight">
               5,555 UNIQUE PIXEL PFPS.<br />
-              <span className="font-normal text-[#535744]">Inspired by mosquitoes with character.</span>
+              <span className="font-normal text-[#535744]">Small pixels. Big personalities.</span>
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@ export default async function Home() {
       <div className="marquee">
         <div className="marquee-track">
           {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i}>✳ 5,555 PIXEL PFPS ✳ ROBINHOOD CHAIN ✳ INSPIRED BY MOSQUITOS ✳ SWAP & VIEW ✳</span>
+            <span key={i}>✳ PIXEL POWER ✳ COMMUNITY FIRST ✳ GOOD VIBES ONLY ✳ GET WHITELISTED ✳</span>
           ))}
         </div>
       </div>
@@ -94,16 +94,16 @@ export default async function Home() {
         </div>
         <div className="flex flex-col justify-center">
           <p className="max-w-2xl text-base sm:text-lg lg:text-xl font-semibold leading-relaxed">
-            {collection} is a premier 5,555 pixel-art PFP collection inspired by mosquitoes, built on the <strong>ROBINHOOD</strong> chain with distinct traits and an active community.
+            {collection} is a premier 5,555 pixel-art PFP collection built on the <strong>ROBINHOOD</strong> chain with distinct traits and an active community.
           </p>
           <p className="mt-4 sm:mt-5 max-w-2xl leading-relaxed text-[#465032] text-sm sm:text-base">
-            This art is inspired by mosquitoes — transforming buzzing energy into collectible pixel-art personalities. Complete the social tasks, follow our official X, and submit your application.
+            Transforming buzzing energy into collectible pixel-art personas. Complete the social tasks, follow our official X accounts, and submit your application.
           </p>
           <div className="mt-6 sm:mt-8 grid gap-3 sm:grid-cols-3">
             <div className="border-2 border-[#171820] bg-[#f6d52b] p-4">
               <Zap />
               <b className="mt-2.5 block text-sm sm:text-base">PFP-First</b>
-              <span className="text-xs">Mosquito-inspired styles.</span>
+              <span className="text-xs">Unique pixel styles.</span>
             </div>
             <div className="border-2 border-[#171820] bg-[#f7f7ed] p-4">
               <ShieldCheck />
@@ -161,21 +161,21 @@ export default async function Home() {
             <span className="text-[#e42c24]">ERA STARTS.</span>
           </h2>
           <p className="mt-4 sm:mt-6 max-w-md text-sm sm:text-base leading-relaxed text-[#465032]">
-            Complete the social tasks and submit your wallet address along with your reply link. Submitting an application enters you into review, but does not guarantee a whitelist allocation.
+            Complete the social tasks and submit your wallet address along with your reply link to apply for your whitelist spot.
           </p>
 
           <div className="mt-6 sm:mt-8 space-y-3 text-xs sm:text-sm font-semibold">
             <div className="flex items-center gap-3">
               <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0">1</span>
-              <span>Follow <strong>@Buzquitos</strong> on X</span>
+              <span>Follow <strong>@Buzquitos</strong> &amp; <strong>@Mical_xz</strong> on X</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0">2</span>
-              <span>Like, Retweet & Reply on our pinned post</span>
+              <span>Like, Retweet &amp; Reply on our pinned post</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0">3</span>
-              <span>Submit your wallet & direct reply link below</span>
+              <span>Submit your wallet &amp; direct reply link below</span>
             </div>
           </div>
 
