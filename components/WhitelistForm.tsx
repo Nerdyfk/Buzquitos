@@ -312,10 +312,6 @@ export default function WhitelistForm({ isOpen = true }: { isOpen?: boolean }) {
                       </>
                     )}
                   </button>
-
-                  <p className="text-center font-mono text-[9px] sm:text-[10px] text-[#64748b]">
-                    NO SEED PHRASE. NO PRIVATE KEY. EVER.
-                  </p>
                 </motion.form>
               )}
             </AnimatePresence>

@@ -53,20 +53,6 @@ export default async function Home() {
               MEET THE PROJECT <ArrowDown size={16} />
             </a>
           </div>
-
-          <div className="mt-8 sm:mt-9 flex items-center gap-3 sm:gap-4">
-            <div className="flex -space-x-3 shrink-0">
-              {['/characters/buzquito-1.png', '/characters/buzquito-2.png', '/characters/buzquito-3.png', '/characters/buzquito-4.png'].map(src => (
-                <div key={src} className="h-10 w-10 overflow-hidden rounded-full border-2 border-[#171820] bg-[#f7f7ed]">
-                  <Image src={src} alt="Buzquito PFP" width={80} height={80} className="h-full w-full object-cover object-top" />
-                </div>
-              ))}
-            </div>
-            <div className="text-xs font-semibold leading-tight">
-              5,555 UNIQUE PIXEL PFPS.<br />
-              <span className="font-normal text-[#535744]">Small pixels. Big personalities.</span>
-            </div>
-          </div>
         </div>
 
         {/* Interactive Swappable & Viewable Character Showcase */}
