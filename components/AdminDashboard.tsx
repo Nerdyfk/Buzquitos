@@ -33,13 +33,19 @@ export default function AdminDashboard({ email }: { email: string }) {
         fetch('/api/admin/submissions'),
         fetch('/api/admin/settings')
       ]);
+      const dataA = await a.json().catch(() => ({}));
+      const dataB = await b.json().catch(() => ({}));
+
       if (a.ok) {
-        const d = await a.json();
-        setRows(d.submissions || []);
+        setRows(dataA.submissions || []);
+      } else if (dataA.error) {
+        setMessage(dataA.error);
       }
+
       if (b.ok) {
-        const d = await b.json();
-        setSettings(d.settings || []);
+        setSettings(dataB.settings || []);
+      } else if (dataB.error && !dataA.error) {
+        setMessage(dataB.error);
       }
     } catch {
       setMessage('Failed to load dashboard data.');

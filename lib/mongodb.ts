@@ -1,7 +1,12 @@
 import { MongoClient, Db } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/buzquitos';
-const options = {};
+const rawUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/buzquitos';
+const uri = rawUri.trim().replace(/^["']|["']$/g, '');
+const options = {
+  serverSelectionTimeoutMS: 5000,
+  connectTimeoutMS: 5000,
+  maxPoolSize: 10
+};
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;

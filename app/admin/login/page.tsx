@@ -26,7 +26,7 @@ export default function AdminLogin() {
       if (!res.ok) {
         setError(data.error || 'Failed to sign in.');
       } else {
-        router.replace('/admin');
+        window.location.href = '/admin';
       }
     } catch {
       setError('An unexpected network error occurred.');

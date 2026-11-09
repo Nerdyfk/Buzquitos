@@ -4,7 +4,8 @@ import { getDb } from '@/lib/mongodb';
 import { Db } from 'mongodb';
 
 const SESSION_COOKIE_NAME = 'admin_session';
-const SECRET = process.env.ADMIN_SESSION_SECRET || 'buzquitos-admin-default-secret-key-32chars';
+const rawSecret = process.env.ADMIN_SESSION_SECRET || 'buzquitos-admin-default-secret-key-32chars';
+const SECRET = rawSecret.trim().replace(/^["']|["']$/g, '');
 
 export function createAdminToken(email: string): string {
   const payload = {
@@ -50,12 +51,25 @@ export async function verifyAdminCredentials(emailInput: string, passwordInput: 
   if (!email || !password) return false;
 
   // 1. Check against environment variables
-  const envAdminEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
-  const envAdminPassword = process.env.ADMIN_PASSWORD;
+  const rawEnvEmail = process.env.ADMIN_EMAIL || '';
+  const cleanEnvEmail = rawEnvEmail.trim().toLowerCase().replace(/^["']|["']$/g, '');
 
-  if (envAdminPassword) {
-    const emailMatches = !envAdminEmail || envAdminEmail === email;
-    if (emailMatches && password === envAdminPassword) {
+  const rawEnvPassword = process.env.ADMIN_PASSWORD || '';
+  const cleanEnvPassword = rawEnvPassword.trim().replace(/^["']|["']$/g, '');
+
+  if (cleanEnvPassword) {
+    const emailMatches =
+      !cleanEnvEmail ||
+      cleanEnvEmail === email ||
+      cleanEnvEmail.split('@')[0] === email;
+
+    const passwordMatches =
+      password === cleanEnvPassword ||
+      password === rawEnvPassword ||
+      passwordInput === cleanEnvPassword ||
+      passwordInput === rawEnvPassword;
+
+    if (emailMatches && passwordMatches) {
       return true;
     }
   }
@@ -70,15 +84,15 @@ export async function verifyAdminCredentials(emailInput: string, passwordInput: 
         return true;
       }
     }
-  } catch {
-    // MongoDB check error or no admin collection yet
+  } catch (err) {
+    console.warn('MongoDB admin verify error:', err);
   }
 
   return false;
 }
 
 export async function requireAdmin(): Promise<
-  | { ok: true; user: { email: string }; db: Db }
+  | { ok: true; user: { email: string }; db?: Db }
   | { ok: false; status: number; message: string }
 > {
   const cookieStore = await cookies();
@@ -95,14 +109,20 @@ export async function requireAdmin(): Promise<
 
   const allowedEmails = (process.env.ADMIN_EMAILS || '')
     .split(',')
-    .map(v => v.trim().toLowerCase())
+    .map(v => v.trim().toLowerCase().replace(/^["']|["']$/g, ''))
     .filter(Boolean);
 
   if (allowedEmails.length && !allowedEmails.includes(verified.email.toLowerCase())) {
     return { ok: false, status: 403, message: 'This account is not on the admin allow-list.' };
   }
 
-  const db = await getDb();
+  let db: Db | undefined;
+  try {
+    db = await getDb();
+  } catch (err) {
+    console.warn('MongoDB connection unavailable in requireAdmin:', err);
+  }
+
   return { ok: true, user: { email: verified.email }, db };
 }
 

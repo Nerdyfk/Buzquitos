@@ -6,6 +6,13 @@ export async function GET() {
   const auth = await requireAdmin();
   if (!auth.ok) return NextResponse.json({ error: auth.message }, { status: auth.status });
 
+  if (!auth.db) {
+    return NextResponse.json({
+      submissions: [],
+      error: 'MongoDB is not connected. Please verify your MONGODB_URI and make sure MongoDB Atlas Network Access allows 0.0.0.0/0 (all IPs).'
+    }, { status: 503 });
+  }
+
   try {
     const list = await auth.db
       .collection('submissions')
@@ -33,6 +40,7 @@ export async function GET() {
 export async function PATCH(req: NextRequest) {
   const auth = await requireAdmin();
   if (!auth.ok) return NextResponse.json({ error: auth.message }, { status: auth.status });
+  if (!auth.db) return NextResponse.json({ error: 'Database unavailable.' }, { status: 503 });
 
   try {
     const { id, status } = await req.json();
@@ -59,6 +67,7 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const auth = await requireAdmin();
   if (!auth.ok) return NextResponse.json({ error: auth.message }, { status: auth.status });
+  if (!auth.db) return NextResponse.json({ error: 'Database unavailable.' }, { status: 503 });
 
   try {
     const id = req.nextUrl.searchParams.get('id');

@@ -16,6 +16,13 @@ export async function GET() {
   const auth = await requireAdmin();
   if (!auth.ok) return NextResponse.json({ error: auth.message }, { status: auth.status });
 
+  if (!auth.db) {
+    return NextResponse.json({
+      settings: [],
+      error: 'MongoDB is not connected. Please verify your MONGODB_URI and make sure MongoDB Atlas Network Access allows 0.0.0.0/0 (all IPs).'
+    }, { status: 503 });
+  }
+
   try {
     const data = await auth.db.collection('collection_settings').find({}).toArray();
     const settings = data.map(item => ({ key: item.key, value: item.value }));
@@ -29,6 +36,7 @@ export async function GET() {
 export async function PUT(req: NextRequest) {
   const auth = await requireAdmin();
   if (!auth.ok) return NextResponse.json({ error: auth.message }, { status: auth.status });
+  if (!auth.db) return NextResponse.json({ error: 'Database unavailable.' }, { status: 503 });
 
   try {
     const { settings } = await req.json();
