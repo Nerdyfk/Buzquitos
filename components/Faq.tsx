@@ -6,23 +6,23 @@ import { ChevronDown } from 'lucide-react';
 const items = [
   [
     'What is Buzquitos?',
-    'Buzquitos is a 5,555 character-driven pixel-art PFP (Profile Picture) collection on the Ethereum blockchain. Each PFP features custom traits, distinct personalities, and grants holders access to the community.'
+    'Buzquitos is a 5,555 character-driven pixel-art PFP (Profile Picture) collection on the Robinhood chain. Each PFP features custom traits, distinct personalities, and grants holders access to the community.'
   ],
   [
     'How do I apply for the whitelist?',
     'Complete the required social tasks: follow @Buzquitos on X, like, retweet and reply to our pinned post, and submit your wallet address with your direct reply link proof.'
   ],
   [
+    'What is the inspiration behind the art?',
+    'This art is inspired by Mosquitos — capturing playful, character-driven mosquito-inspired pixel personas with distinct styles, bold traits, and big personalities.'
+  ],
+  [
     'Does submitting guarantee a whitelist spot?',
     'No. Submitting an application enters your wallet and proof into our review system. Submission does not guarantee whitelist allocation.'
   ],
   [
-    'Is there a fee to apply?',
-    'No payment is required to apply for the whitelist. Never connect your wallet or send funds to any unverified links.'
-  ],
-  [
     'What is the mint price and supply?',
-    'The collection has a capped total supply of 5,555 PFPs. The mint price is TBA (to be announced) on our official X (@Buzquitos).'
+    'The collection has a capped total supply of 5,555 PFPs on the Robinhood chain. The mint price is TBA (to be announced) on our official X (@Buzquitos).'
   ]
 ];
 

@@ -3,7 +3,7 @@ import { getDb } from '@/lib/mongodb';
 const defaults: Record<string, string> = {
   collection_name: process.env.NEXT_PUBLIC_COLLECTION_NAME || 'Buzquitos',
   tagline: process.env.NEXT_PUBLIC_COLLECTION_TAGLINE || 'Small pixels. Big personalities.',
-  network: process.env.NEXT_PUBLIC_NETWORK || 'Ethereum',
+  network: process.env.NEXT_PUBLIC_NETWORK || 'ROBINHOOD',
   supply: process.env.NEXT_PUBLIC_SUPPLY || '5555',
   mint_price: process.env.NEXT_PUBLIC_MINT_PRICE || 'TBA',
   mint_date: process.env.NEXT_PUBLIC_MINT_DATE || 'To be announced',

@@ -24,7 +24,7 @@ async function main() {
   const defaultSettings = [
     { key: 'collection_name', value: 'Buzquitos' },
     { key: 'tagline', value: 'Small pixels. Big personalities.' },
-    { key: 'network', value: 'Ethereum' },
+    { key: 'network', value: 'ROBINHOOD' },
     { key: 'supply', value: '5555' },
     { key: 'mint_price', value: 'TBA' },
     { key: 'mint_date', value: 'To be announced' },

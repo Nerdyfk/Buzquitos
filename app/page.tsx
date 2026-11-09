@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUpRight, Check, ShieldCheck, Zap } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import WhitelistForm from '@/components/WhitelistForm';
 import Faq from '@/components/Faq';
+import CharacterShowcase from '@/components/CharacterShowcase';
 import { getCollectionSettings } from '@/lib/collection-settings';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +14,7 @@ export default async function Home() {
   const details = [
     ['TOTAL SUPPLY', settings.supply ? Number(settings.supply).toLocaleString() : '5,555'],
     ['CATEGORY', 'Pixel PFP'],
-    ['NETWORK', settings.network || 'Ethereum'],
+    ['NETWORK', settings.network || 'ROBINHOOD'],
     ['MINT PRICE', settings.mint_price || 'TBA']
   ];
 
@@ -41,7 +42,7 @@ export default async function Home() {
 
           <p className="mt-4 sm:mt-5 max-w-[480px] text-sm sm:text-base lg:text-lg font-medium leading-relaxed text-[#394127]">
             <strong>{collection}</strong> is a character-driven 5,555 pixel-art <strong>PFP (Profile Picture) collection</strong>.
-            Small pixels, bold personalities, and an exclusive holder community on Ethereum.
+            Inspired by mosquitoes with small pixels, bold personalities, and an exclusive community on <strong>ROBINHOOD</strong>.
           </p>
 
           <div className="mt-6 sm:mt-7 flex flex-col sm:flex-row flex-wrap gap-3">
@@ -55,68 +56,28 @@ export default async function Home() {
 
           <div className="mt-8 sm:mt-9 flex items-center gap-3 sm:gap-4">
             <div className="flex -space-x-3 shrink-0">
-              {['/characters/pirate-captain.jpg', '/characters/red-beanie.jpg', '/characters/fire-hero.jpg'].map(src => (
+              {['/characters/buzquito-1.png', '/characters/buzquito-2.png', '/characters/buzquito-3.png', '/characters/buzquito-4.png'].map(src => (
                 <div key={src} className="h-10 w-10 overflow-hidden rounded-full border-2 border-[#171820] bg-[#f7f7ed]">
-                  <Image src={src} alt="Pixel PFP" width={80} height={80} className="h-full w-full object-cover object-top" />
+                  <Image src={src} alt="Buzquito PFP" width={80} height={80} className="h-full w-full object-cover object-top" />
                 </div>
               ))}
             </div>
             <div className="text-xs font-semibold leading-tight">
               5,555 UNIQUE PIXEL PFPS.<br />
-              <span className="font-normal text-[#535744]">Your digital identity with character.</span>
+              <span className="font-normal text-[#535744]">Inspired by mosquitoes with character.</span>
             </div>
           </div>
         </div>
 
-        {/* Hero Image Showcase */}
-        <div className="relative mx-auto w-full max-w-[420px] sm:max-w-[460px] lg:max-w-[410px] xl:max-w-[470px] px-2 sm:px-0 mt-4 lg:mt-0 justify-self-center lg:justify-self-end">
-          <div className="grid-bg absolute inset-0 -rotate-2 sm:-rotate-3 border-2 border-[#171820] bg-[#b2df43]" />
-          <div className="relative grid grid-cols-2 items-end gap-1 px-3 pt-5 sm:px-6">
-            <div className="float relative z-10 -mr-4 sm:-mr-6">
-              <Image
-                src="/characters/pirate-captain.jpg"
-                alt="Buzquitos Pixel PFP"
-                width={520}
-                height={520}
-                priority
-                className="h-auto w-full drop-shadow-[5px_7px_0_rgba(23,24,32,.2)]"
-              />
-            </div>
-            <div className="relative z-20 mt-12 sm:mt-18">
-              <Image
-                src="/characters/red-beanie.jpg"
-                alt="Buzquitos Pixel PFP"
-                width={520}
-                height={520}
-                priority
-                className="float h-auto w-full [animation-delay:1s] drop-shadow-[5px_7px_0_rgba(23,24,32,.2)]"
-              />
-            </div>
-            <div className="absolute -bottom-2 left-[28%] z-30 w-[43%]">
-              <Image
-                src="/characters/fire-hero.jpg"
-                alt="Buzquitos Pixel PFP"
-                width={520}
-                height={520}
-                className="h-auto w-full drop-shadow-[5px_7px_0_rgba(23,24,32,.2)]"
-              />
-            </div>
-            <div className="absolute right-1 sm:-right-2 top-3 sm:top-5 z-30 rotate-3 sm:rotate-6 border-2 border-[#171820] bg-[#f6d52b] px-2.5 py-1.5 sm:px-3 sm:py-2 font-mono text-[9px] sm:text-[10px] font-bold shadow-[3px_3px_0_#171820]">
-              5,555 PIXEL PFPS ✦
-            </div>
-          </div>
-          <div className="relative mt-4 sm:mt-5 flex items-center justify-between border-2 border-[#171820] bg-[#171820] px-3 sm:px-4 py-2.5 sm:py-3 text-white">
-            <span className="eyebrow text-[10px] sm:text-[11px] truncate">YOUR NEXT FAVORITE PFP</span>
-            <span className="font-mono text-[10px] sm:text-xs text-[#c2ed55] shrink-0 ml-2">[ 001 — 5555 ]</span>
-          </div>
-        </div>
+        {/* Interactive Swappable & Viewable Character Showcase */}
+        <CharacterShowcase />
       </section>
 
       {/* Marquee Banner */}
       <div className="marquee">
         <div className="marquee-track">
           {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i}>✳ 5,555 PIXEL PFPS ✳ COMMUNITY FIRST ✳ BUZQUITOS ON X ✳ APPLY NOW ✳</span>
+            <span key={i}>✳ 5,555 PIXEL PFPS ✳ ROBINHOOD CHAIN ✳ INSPIRED BY MOSQUITOS ✳ SWAP & VIEW ✳</span>
           ))}
         </div>
       </div>
@@ -133,21 +94,21 @@ export default async function Home() {
         </div>
         <div className="flex flex-col justify-center">
           <p className="max-w-2xl text-base sm:text-lg lg:text-xl font-semibold leading-relaxed">
-            {collection} is a premier 5,555 pixel-art PFP collection built around distinct digital identities, bold character traits, and an active Web3 community.
+            {collection} is a premier 5,555 pixel-art PFP collection inspired by mosquitoes, built on the <strong>ROBINHOOD</strong> chain with distinct traits and an active community.
           </p>
           <p className="mt-4 sm:mt-5 max-w-2xl leading-relaxed text-[#465032] text-sm sm:text-base">
-            This is more than an ordinary profile picture. It is a digital collectible identity, a membership pass, and your front-row seat to the journey. Follow our official X, complete the tasks, and submit your application.
+            This art is inspired by mosquitoes — transforming buzzing energy into collectible pixel-art personalities. Complete the social tasks, follow our official X, and submit your application.
           </p>
           <div className="mt-6 sm:mt-8 grid gap-3 sm:grid-cols-3">
             <div className="border-2 border-[#171820] bg-[#f6d52b] p-4">
               <Zap />
               <b className="mt-2.5 block text-sm sm:text-base">PFP-First</b>
-              <span className="text-xs">Distinct pixel personalities.</span>
+              <span className="text-xs">Mosquito-inspired styles.</span>
             </div>
             <div className="border-2 border-[#171820] bg-[#f7f7ed] p-4">
               <ShieldCheck />
-              <b className="mt-2.5 block text-sm sm:text-base">Community-Led</b>
-              <span className="text-xs">Built with the holders.</span>
+              <b className="mt-2.5 block text-sm sm:text-base">ROBINHOOD</b>
+              <span className="text-xs">Minting on Robinhood chain.</span>
             </div>
             <div className="border-2 border-[#171820] bg-[#e42c24] p-4 text-white">
               <Check />
@@ -168,7 +129,7 @@ export default async function Home() {
               SPECS.
             </h2>
             <p className="max-w-sm text-xs sm:text-sm leading-relaxed text-[#535744]">
-              The essential specs of the Buzquitos PFP collection. Final mint details will be announced through our official X account.
+              The essential specs of the Buzquitos PFP collection on the Robinhood chain. Final mint details will be announced through our official X account.
             </p>
           </div>
           <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -232,7 +193,7 @@ export default async function Home() {
           <h2 className="pixel-title text-3xl sm:text-5xl lg:text-6xl font-black">NEXT UP.</h2>
           <div className="mt-8 sm:mt-12 grid gap-4 sm:gap-5 md:grid-cols-3">
             {[
-              ['01', 'THE PFP DROP', 'Character reveal, whitelist distribution, and 5,555 mint launch.'],
+              ['01', 'THE PFP DROP', 'Character reveal, whitelist distribution, and 5,555 mint launch on Robinhood.'],
               ['02', 'PFP COMMUNITY', 'Holder-only events, digital experiences, and avatar identity recognition.'],
               ["03", "WHAT'S NEXT", 'Future character expansions and community utility shaped by holders.']
             ].map(([n, title, desc]) => (
@@ -272,7 +233,7 @@ export default async function Home() {
               {collection.toUpperCase()} <span className="text-[#c2ed55]">✳</span>
             </div>
             <div className="mt-1 font-mono text-[9px] sm:text-[10px] text-white/50">
-              5,555 PIXEL PFP COLLECTION · SMALL PIXELS. BIG PERSONALITIES.
+              5,555 PIXEL PFP COLLECTION · ROBINHOOD CHAIN
             </div>
           </div>
           <div className="flex flex-wrap gap-4 sm:gap-5 text-xs font-semibold">
