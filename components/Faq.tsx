@@ -6,7 +6,7 @@ import { ChevronDown } from 'lucide-react';
 const items = [
   [
     'What is Buzquitos?',
-    'Buzquitos is a 5,555 character-driven pixel-art PFP (Profile Picture) collection on the Robinhood chain. Each PFP features custom traits, distinct personalities, and grants holders access to the community.'
+    'Buzquitos is a 5,555 character-driven pixel-art PFP collection on the Robinhood chain. Each PFP features custom traits, distinct personalities, and grants holders access to the community.'
   ],
   [
     'How do I apply for the whitelist?',

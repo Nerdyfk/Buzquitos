@@ -41,7 +41,7 @@ export default async function Home() {
           </h1>
 
           <p className="mt-4 sm:mt-5 max-w-[480px] text-sm sm:text-base lg:text-lg font-medium leading-relaxed text-[#394127]">
-            <strong>{collection}</strong> is a character-driven 5,555 pixel-art <strong>PFP (Profile Picture) collection</strong>.
+            <strong>{collection}</strong> is a character-driven 5,555 pixel-art <strong>PFP collection</strong>.
             Small pixels, bold personalities, and an exclusive community on <strong>ROBINHOOD</strong>.
           </p>
 
