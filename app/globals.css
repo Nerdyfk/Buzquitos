@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -10,27 +10,6 @@
   --red: #e42c24;
   --yellow: #f6d52b;
   --line: rgba(23,24,32,.18);
-}
-
-.pen-script {
-  font-family: 'Caveat', 'Comic Sans MS', cursive;
-}
-
-.paper-sheet {
-  background-color: #fffef9;
-  background-image: 
-    linear-gradient(90deg, transparent 48px, rgba(239, 68, 68, 0.2) 49px, rgba(239, 68, 68, 0.2) 50px, transparent 51px),
-    repeating-linear-gradient(transparent, transparent 31px, rgba(99, 102, 241, 0.08) 31px, rgba(99, 102, 241, 0.08) 32px);
-  background-attachment: local;
-}
-
-.clipboard-bg {
-  background-color: #4a3424;
-  background-image: 
-    radial-gradient(#3a2719 15%, transparent 16%),
-    radial-gradient(#5a422f 15%, transparent 16%);
-  background-size: 16px 16px;
-  background-position: 0 0, 8px 8px;
 }
 
 * {
