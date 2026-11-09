@@ -1,5 +1,55 @@
 'use client';
+
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-const items=[['What is this collection?','A character-driven digital collectible project built around pixel-art personalities and a community-first experience.'],['How do I join the whitelist?','Complete the form with your wallet address and X username. A successful submission confirms receipt, not guaranteed allocation.'],['Is there a fee to join?','No payment is required to submit the whitelist form. Never send funds to anyone claiming they can guarantee a spot.'],['When is the mint?','The mint date and final details will be announced through our official social channels.'],['How will I know if I am selected?','Follow the official project channels. Any whitelist status updates will be shared through verified announcements.']];
-export default function Faq(){const [active,setActive]=useState<number|null>(0);return <div className="space-y-3">{items.map(([q,a],i)=><div key={q} className="border-2 border-[#171820] bg-[#f7f7ed]"><button className="flex w-full items-center justify-between gap-4 p-4 text-left font-bold" onClick={()=>setActive(active===i?null:i)}><span><span className="mr-3 font-mono text-xs text-[#78834b]">0{i+1}</span>{q}</span><ChevronDown className={`shrink-0 transition-transform ${active===i?'rotate-180':''}`}/></button>{active===i&&<div className="border-t-2 border-[#171820]/15 px-4 pb-4 pt-3 text-sm leading-relaxed text-[#535744]">{a}</div>}</div>)}</div>}
+
+const items = [
+  [
+    'What is Buzquitos?',
+    'Buzquitos is a 5,555 character-driven pixel-art PFP (Profile Picture) collection on the Ethereum blockchain. Each PFP features custom traits, distinct personalities, and grants holders access to the community.'
+  ],
+  [
+    'How do I apply for the whitelist?',
+    'Complete the required social tasks: follow @Buzquitos on X, like, retweet and reply to our pinned post, and submit your wallet address with your direct reply link proof.'
+  ],
+  [
+    'Does submitting guarantee a whitelist spot?',
+    'No. Submitting an application enters your wallet and proof into our review system. Submission does not guarantee whitelist allocation.'
+  ],
+  [
+    'Is there a fee to apply?',
+    'No payment is required to apply for the whitelist. Never connect your wallet or send funds to any unverified links.'
+  ],
+  [
+    'What is the mint price and supply?',
+    'The collection has a capped total supply of 5,555 PFPs. The mint price is TBA (to be announced) on our official X (@Buzquitos).'
+  ]
+];
+
+export default function Faq() {
+  const [active, setActive] = useState<number | null>(0);
+
+  return (
+    <div className="space-y-3">
+      {items.map(([q, a], i) => (
+        <div key={q} className="border-2 border-[#171820] bg-[#f7f7ed]">
+          <button
+            className="flex w-full items-center justify-between gap-3 p-4 text-left font-bold text-sm sm:text-base"
+            onClick={() => setActive(active === i ? null : i)}
+          >
+            <span className="flex items-start sm:items-center">
+              <span className="mr-2 sm:mr-3 font-mono text-xs text-[#78834b] shrink-0">0{i + 1}</span>
+              <span>{q}</span>
+            </span>
+            <ChevronDown className={`shrink-0 transition-transform ${active === i ? 'rotate-180' : ''}`} size={18} />
+          </button>
+          {active === i && (
+            <div className="border-t-2 border-[#171820]/15 px-4 pb-4 pt-3 text-xs sm:text-sm leading-relaxed text-[#535744]">
+              {a}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}

@@ -1,5 +1,224 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
-:root{--lime:#c2ed55;--lime-dark:#a8d83b;--ink:#171820;--muted:#4d5835;--paper:#f7f7ed;--red:#e42c24;--yellow:#f6d52b;--line:rgba(23,24,32,.18)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--lime);color:var(--ink);font-family:'Space Grotesk',sans-serif}button,input,textarea{font:inherit}button,a{-webkit-tap-highlight-color:transparent}a{color:inherit;text-decoration:none}::selection{background:var(--ink);color:var(--lime)}
-.pixel-border{border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink)}.pixel-shadow{box-shadow:7px 7px 0 var(--ink)}.mono{font-family:'DM Mono',monospace}.pixel-title{letter-spacing:-.075em;line-height:.9}.section-wrap{width:min(1160px,calc(100% - 40px));margin-inline:auto}.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase}.grid-bg{background-image:linear-gradient(rgba(23,24,32,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(23,24,32,.055) 1px,transparent 1px);background-size:28px 28px}.pixel-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:2px solid var(--ink);background:var(--ink);color:white;padding:15px 20px;font-weight:700;transition:transform .18s,box-shadow .18s;box-shadow:4px 4px 0 rgba(23,24,32,.3)}.pixel-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 rgba(23,24,32,.3)}.pixel-btn.light{background:var(--paper);color:var(--ink)}.pixel-btn.red{background:var(--red);color:white}.field{width:100%;background:#fffdf4;border:2px solid var(--ink);padding:13px 14px;outline:none;border-radius:0}.field:focus{box-shadow:4px 4px 0 var(--ink)}.label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.card{background:var(--paper);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink)}.marquee{overflow:hidden;white-space:nowrap;border-block:2px solid var(--ink);background:var(--yellow)}.marquee-track{display:inline-flex;gap:28px;padding:12px 0;animation:marquee 28s linear infinite;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.12em}@keyframes marquee{to{transform:translateX(-50%)}}@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-13px) rotate(2deg)}}@keyframes blink{50%{opacity:.25}}.float{animation:float 4s ease-in-out infinite}.blink{animation:blink 1.4s steps(2,start) infinite}.admin-bg{background:#11131a;color:#f5f4eb;min-height:100vh}.admin-field{width:100%;padding:12px 14px;border:1px solid #383b47;background:#1c1f29;color:#fff;outline:none}.admin-field:focus{border-color:#c2ed55}.admin-card{background:#1c1f29;border:1px solid #343744;border-radius:12px}
+
+:root {
+  --lime: #c2ed55;
+  --lime-dark: #a8d83b;
+  --ink: #171820;
+  --muted: #4d5835;
+  --paper: #f7f7ed;
+  --red: #e42c24;
+  --yellow: #f6d52b;
+  --line: rgba(23,24,32,.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--lime);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--lime);
+}
+
+.pixel-border {
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.pixel-shadow {
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.mono {
+  font-family: 'DM Mono', monospace;
+}
+
+.pixel-title {
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.section-wrap {
+  width: min(1160px, calc(100% - 28px));
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .section-wrap {
+    width: min(1160px, calc(100% - 40px));
+  }
+}
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  word-break: break-word;
+}
+
+.grid-bg {
+  background-image: linear-gradient(rgba(23,24,32,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23,24,32,.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.pixel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: white;
+  padding: 14px 20px;
+  font-weight: 700;
+  transition: transform 0.18s, box-shadow 0.18s;
+  box-shadow: 4px 4px 0 rgba(23,24,32,.3);
+  text-align: center;
+}
+
+.pixel-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 rgba(23,24,32,.3);
+}
+
+.pixel-btn.light {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.pixel-btn.red {
+  background: var(--red);
+  color: white;
+}
+
+.field {
+  width: 100%;
+  background: #fffdf4;
+  border: 2px solid var(--ink);
+  padding: 12px 14px;
+  outline: none;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.field:focus {
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  border-block: 2px solid var(--ink);
+  background: var(--yellow);
+}
+
+.marquee-track {
+  display: inline-flex;
+  gap: 28px;
+  padding: 12px 0;
+  animation: marquee 28s linear infinite;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.blink {
+  animation: blink 1.4s steps(2, start) infinite;
+}
+
+.admin-bg {
+  background: #11131a;
+  color: #f5f4eb;
+  min-height: 100vh;
+}
+
+.admin-field {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #383b47;
+  background: #1c1f29;
+  color: #fff;
+  outline: none;
+}
+
+.admin-field:focus {
+  border-color: #c2ed55;
+}
+
+.admin-card {
+  background: #1c1f29;
+  border: 1px solid #343744;
+  border-radius: 12px;
+}
