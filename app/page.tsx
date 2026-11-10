@@ -216,7 +216,7 @@ export default async function Home() {
         <div className="section-wrap flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
           <div>
             <div className="font-black tracking-tight text-base sm:text-lg">
-              {collection.toUpperCase()} <span className="text-[#c2ed55]">✳</span>
+              {collection.toUpperCase()}
             </div>
             <div className="mt-1 font-mono text-[9px] sm:text-[10px] text-white/50">
               5,555 PIXEL PFP COLLECTION · ROBINHOOD CHAIN
