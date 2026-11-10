@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface PixelLoaderProps {
   onComplete?: () => void;
-  forceShow?: boolean; // If true, bypasses sessionStorage check (for testing/preview)
+  forceShow?: boolean;
   minDuration?: number; // default 5000ms
   maxDuration?: number; // default 7000ms
 }
@@ -37,43 +37,20 @@ const PARTICLES = [
 
 export default function PixelLoader({
   onComplete,
-  forceShow = false,
   minDuration = 5000,
   maxDuration = 7000
 }: PixelLoaderProps) {
-  const [mounted, setMounted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [shouldRender, setShouldRender] = useState(true);
 
   // Random duration between minDuration and maxDuration (5–7 seconds)
   const duration = useMemo(() => {
     return minDuration + Math.random() * (maxDuration - minDuration);
   }, [minDuration, maxDuration]);
 
-  // Session storage check: run only once per session unless forceShow is true
-  useEffect(() => {
-    setMounted(true);
-
-    if (!forceShow) {
-      try {
-        const seen = sessionStorage.getItem('buzquitos_loader_seen');
-        if (seen === 'true') {
-          setShouldRender(false);
-          onComplete?.();
-          return;
-        }
-      } catch {
-        // Fallback if sessionStorage is disabled or unavailable
-      }
-    }
-  }, [forceShow, onComplete]);
-
   // Progress animation with smooth curve and faster finish
   useEffect(() => {
-    if (!mounted || !shouldRender) return;
-
     let animId: number;
     const startTime = performance.now();
 
@@ -82,13 +59,11 @@ export default function PixelLoader({
       const raw = Math.min(1, elapsed / duration);
 
       // Smooth pacing with slightly accelerated finish toward 100%
-      // Uses a hybrid easing: steady linear progression early on, accelerates in final 25%
       let eased: number;
       if (raw < 0.7) {
         eased = 0.65 * (raw / 0.7);
       } else {
         const t = (raw - 0.7) / 0.3;
-        // Ease-out quad acceleration to snap cleanly into finish
         eased = 0.65 + 0.35 * Math.sin((t * Math.PI) / 2);
       }
 
@@ -100,13 +75,6 @@ export default function PixelLoader({
       } else {
         setProgress(100);
         setIsComplete(true);
-
-        // Mark as seen in this session
-        try {
-          sessionStorage.setItem('buzquitos_loader_seen', 'true');
-        } catch {
-          // ignore
-        }
 
         // 500ms pause when reaching 100% before triggering completion
         const timer = setTimeout(() => {
@@ -123,7 +91,7 @@ export default function PixelLoader({
 
     animId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animId);
-  }, [mounted, shouldRender, duration, onComplete]);
+  }, [duration, onComplete]);
 
   // Determine current status message
   const currentStatus = useMemo(() => {
@@ -135,8 +103,6 @@ export default function PixelLoader({
     }
     return 'INITIALIZING...';
   }, [progress, isComplete]);
-
-  if (!mounted || !shouldRender) return null;
 
   return (
     <AnimatePresence>
@@ -372,4 +338,3 @@ export default function PixelLoader({
     </AnimatePresence>
   );
 }
-

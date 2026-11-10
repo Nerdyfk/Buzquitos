@@ -23,8 +23,8 @@ export default async function Home() {
 
   return (
     <main id="home" className="overflow-x-hidden">
-      <ClientPageLoader />
-      <Navbar />
+      <ClientPageLoader>
+        <Navbar />
 
       {/* Hero Section */}
       <section className="section-wrap relative grid min-h-[580px] lg:min-h-[640px] items-center gap-8 lg:gap-10 xl:gap-14 pb-12 sm:pb-16 pt-6 sm:pt-10 lg:grid-cols-[1.1fr_.9fr]">
@@ -251,6 +251,7 @@ export default async function Home() {
           </div>
         </div>
       </footer>
+      </ClientPageLoader>
     </main>
   );
 }
