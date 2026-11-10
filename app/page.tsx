@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import WhitelistForm from '@/components/WhitelistForm';
 import Faq from '@/components/Faq';
 import CharacterShowcase from '@/components/CharacterShowcase';
+import ClientPageLoader from '@/components/ClientPageLoader';
 import { getCollectionSettings } from '@/lib/collection-settings';
 
 export const dynamic = 'force-dynamic';
@@ -20,6 +21,7 @@ export default async function Home() {
 
   return (
     <main id="home" className="overflow-x-hidden">
+      <ClientPageLoader />
       <Navbar />
 
       {/* Hero Section */}
