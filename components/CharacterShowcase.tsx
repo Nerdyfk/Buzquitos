@@ -85,11 +85,6 @@ export default function CharacterShowcase() {
               </div>
             </motion.div>
           </AnimatePresence>
-
-          {/* Top-Right Badge */}
-          <div className="absolute right-2 top-2 z-20 border-2 border-[#171820] bg-[#f6d52b] px-2 py-1 font-mono text-[9px] font-bold shadow-[2px_2px_0_#171820]">
-            5,555 PFPS
-          </div>
         </div>
 
         {/* Thumbnail Selector Strip (Click to swap any of the characters) */}
@@ -123,9 +118,6 @@ export default function CharacterShowcase() {
         <div className="mt-3 flex items-center justify-between border-2 border-[#171820] bg-[#171820] px-3 py-2 text-white">
           <span className="font-mono text-[10px] sm:text-[11px] text-[#c2ed55] font-bold tracking-wider">
             SWAPABLE &amp; VIEWABLE
-          </span>
-          <span className="font-mono text-[10px] sm:text-xs text-white/70">
-            [ 5,555 PFPS ]
           </span>
         </div>
       </div>
