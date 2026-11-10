@@ -22,9 +22,6 @@ export default function CharacterShowcase() {
   const next = () => setCurrentIndex(i => (i === CHARACTERS.length - 1 ? 0 : i + 1));
 
   const current = CHARACTERS[currentIndex];
-  // Helper for background floating previews
-  const prevChar = CHARACTERS[(currentIndex - 1 + CHARACTERS.length) % CHARACTERS.length];
-  const nextChar = CHARACTERS[(currentIndex + 1) % CHARACTERS.length];
 
   return (
     <div className="relative mx-auto w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[420px] xl:max-w-[480px] px-2 sm:px-0 mt-4 lg:mt-0 justify-self-center lg:justify-self-end">
@@ -60,56 +57,29 @@ export default function CharacterShowcase() {
         </div>
 
         {/* Central Card Display with Swappable & Viewable Layers */}
-        <div className="relative mt-3 h-[280px] sm:h-[320px] w-full overflow-hidden border-2 border-[#171820] bg-[#b2df43] flex items-center justify-center">
-          {/* Subtle Background Ghost Cards for Depth */}
-          <div
-            onClick={prev}
-            className="absolute left-[-20%] scale-75 opacity-40 blur-[0.5px] cursor-pointer transition-transform hover:scale-80 hover:opacity-70 z-0"
-          >
-            <Image
-              src={prevChar.src}
-              alt="Previous Buzquito"
-              width={260}
-              height={260}
-              className="object-contain"
-            />
-          </div>
-
-          <div
-            onClick={next}
-            className="absolute right-[-20%] scale-75 opacity-40 blur-[0.5px] cursor-pointer transition-transform hover:scale-80 hover:opacity-70 z-0"
-          >
-            <Image
-              src={nextChar.src}
-              alt="Next Buzquito"
-              width={260}
-              height={260}
-              className="object-contain"
-            />
-          </div>
-
+        <div className="relative mt-3 aspect-square w-full overflow-hidden border-2 border-[#171820] bg-[#171820]">
           {/* Active Featured Image with AnimatePresence */}
           <AnimatePresence mode="wait">
             <motion.div
               key={current.id}
-              initial={{ opacity: 0, scale: 0.88, rotate: -2 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.9, rotate: 2 }}
-              transition={{ duration: 0.22 }}
-              className="relative z-10 h-full w-full flex items-center justify-center cursor-pointer group"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+              className="relative z-10 h-full w-full cursor-pointer group"
               onClick={() => setModalOpen(true)}
             >
               <Image
                 src={current.src}
                 alt={current.name}
-                width={360}
-                height={360}
+                fill
                 priority
-                className="max-h-[92%] w-auto object-contain drop-shadow-[5px_7px_0_rgba(23,24,32,.25)] transition-transform group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, 480px"
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
 
               {/* View Overlay Hint */}
-              <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 border-2 border-[#171820] bg-[#171820] px-2 py-1 text-[10px] font-mono text-[#c2ed55] shadow-[2px_2px_0_#fff] group-hover:bg-[#e42c24] group-hover:text-white transition-colors">
+              <div className="absolute bottom-2.5 right-2.5 z-20 flex items-center gap-1.5 border-2 border-[#171820] bg-[#171820] px-2 py-1 text-[10px] font-mono text-[#c2ed55] shadow-[2px_2px_0_#fff] group-hover:bg-[#e42c24] group-hover:text-white transition-colors">
                 <Maximize2 size={11} />
                 <span>CLICK TO VIEW</span>
               </div>
@@ -191,13 +161,13 @@ export default function CharacterShowcase() {
               </div>
 
               {/* Modal Image Display */}
-              <div className="relative my-4 flex h-[320px] sm:h-[380px] w-full items-center justify-center border-2 border-[#171820] bg-[#b2df43]">
+              <div className="relative my-4 aspect-square w-full overflow-hidden border-2 border-[#171820] bg-[#171820]">
                 <Image
                   src={current.src}
                   alt={current.name}
-                  width={420}
-                  height={420}
-                  className="max-h-[92%] w-auto object-contain drop-shadow-[8px_10px_0_rgba(23,24,32,.3)]"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 500px"
+                  className="h-full w-full object-cover"
                 />
               </div>
 
