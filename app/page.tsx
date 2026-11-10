@@ -6,11 +6,13 @@ import Faq from '@/components/Faq';
 import CharacterShowcase from '@/components/CharacterShowcase';
 import ClientPageLoader from '@/components/ClientPageLoader';
 import { getCollectionSettings } from '@/lib/collection-settings';
+import { getWhitelistTasks } from '@/lib/whitelist-tasks';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const settings = await getCollectionSettings();
+  const tasks = await getWhitelistTasks();
   const collection = settings.collection_name;
   const details = [
     ['TOTAL SUPPLY', settings.supply ? Number(settings.supply).toLocaleString() : '5,555'],
@@ -153,17 +155,26 @@ export default async function Home() {
           </p>
 
           <div className="mt-6 sm:mt-8 space-y-3 text-xs sm:text-sm font-semibold">
+            {tasks.map((task, idx) => (
+              <div key={task.id || idx} className="flex items-start gap-3">
+                <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0 mt-0.5">
+                  {idx + 1}
+                </span>
+                <div>
+                  <span className="font-bold">{task.headline}</span>
+                  {task.description && (
+                    <span className="block text-xs font-normal text-[#535744] mt-0.5">
+                      {task.description}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
             <div className="flex items-center gap-3">
-              <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0">1</span>
-              <span>Follow <strong>@Buzquitos</strong> &amp; <strong>@Mical_xz</strong> on X</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0">2</span>
-              <span>Like, Retweet &amp; Reply on our pinned post</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0">3</span>
-              <span>Submit your wallet &amp; direct reply link below</span>
+              <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#c2ed55] font-mono shrink-0">
+                {tasks.length + 1}
+              </span>
+              <span>Submit your wallet address to register</span>
             </div>
           </div>
 
@@ -171,7 +182,7 @@ export default async function Home() {
             NO WALLET CONNECTION NEEDED ✦
           </div>
         </div>
-        <WhitelistForm isOpen={settings.whitelist_open !== 'false'} />
+        <WhitelistForm isOpen={settings.whitelist_open !== 'false'} tasks={tasks} />
       </section>
 
       {/* Roadmap Section */}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/mongodb';
+import { getWhitelistTasks } from '@/lib/whitelist-tasks';
 
 export async function POST(req: NextRequest) {
   try {
@@ -7,18 +8,50 @@ export async function POST(req: NextRequest) {
     const wallet = String(body.wallet || '').trim();
     const x_username = String(body.x_username || '').trim().replace(/^@/, '');
     const reply_link = String(body.reply_link || '').trim();
+    const responses = (body.responses && typeof body.responses === 'object') ? body.responses : {};
 
+    // Validate wallet
     if (wallet.length < 10 || wallet.length > 100) {
       return NextResponse.json({ error: 'Enter a valid wallet address.' }, { status: 400 });
     }
-    if (!/^[a-zA-Z0-9_]{1,50}$/.test(x_username)) {
-      return NextResponse.json(
-        { error: 'Enter a valid X username (letters, numbers and underscores).' },
-        { status: 400 }
-      );
+
+    // Load active tasks to validate against current admin requirements
+    const tasks = await getWhitelistTasks();
+    const xTask = tasks.find(t => t.field_key === 'x_username');
+    const replyTask = tasks.find(t => t.field_key === 'reply_link');
+
+    if (xTask?.required || x_username) {
+      if (xTask?.required && !x_username) {
+        return NextResponse.json({ error: 'X / Twitter username is required.' }, { status: 400 });
+      }
+      if (x_username && !/^[a-zA-Z0-9_]{1,50}$/.test(x_username)) {
+        return NextResponse.json(
+          { error: 'Enter a valid X username (letters, numbers and underscores).' },
+          { status: 400 }
+        );
+      }
     }
-    if (!reply_link || reply_link.length < 10 || reply_link.length > 500) {
-      return NextResponse.json({ error: 'Please provide a valid Reply Link to the pinned post.' }, { status: 400 });
+
+    if (replyTask?.required || reply_link) {
+      if (replyTask?.required && !reply_link) {
+        return NextResponse.json({ error: 'Reply link is required.' }, { status: 400 });
+      }
+      if (reply_link && (reply_link.length < 10 || reply_link.length > 500)) {
+        return NextResponse.json({ error: 'Please provide a valid Reply Link.' }, { status: 400 });
+      }
+    }
+
+    // Check custom required tasks
+    for (const t of tasks) {
+      if (t.field_key === 'custom' && t.required) {
+        const val = String(responses[t.id] || '').trim();
+        if (!val) {
+          return NextResponse.json(
+            { error: `Please complete required field: ${t.field_label || t.headline}` },
+            { status: 400 }
+          );
+        }
+      }
     }
 
     const db = await getDb();
@@ -53,8 +86,9 @@ export async function POST(req: NextRequest) {
     await db.collection('submissions').insertOne({
       wallet_address: wallet,
       wallet_address_lower: walletLower,
-      x_username,
-      reply_link,
+      x_username: x_username || null,
+      reply_link: reply_link || null,
+      responses,
       status: 'pending',
       created_at: now,
       updated_at: now
