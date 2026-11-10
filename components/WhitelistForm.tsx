@@ -39,7 +39,7 @@ export default function WhitelistForm({ isOpen = true }: { isOpen?: boolean }) {
       <h3 className="text-2xl sm:text-3xl font-black tracking-[-.05em]">Claim your spot.</h3>
       <p className="mb-5 sm:mb-6 mt-1.5 sm:mt-2 text-xs sm:text-sm text-[#535744] leading-relaxed">
         {isOpen
-          ? 'Complete the social tasks below to apply for the 5,555 PFP whitelist.'
+          ? 'Complete the social tasks below to apply for the whitelist.'
           : 'Whitelist registration is currently closed. Follow our official X for the next update.'}
       </p>
 
