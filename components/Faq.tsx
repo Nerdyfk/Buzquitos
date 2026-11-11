@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { renderSocialMentions } from '@/lib/text-links';
 
 const items = [
   [
@@ -45,7 +46,7 @@ export default function Faq() {
           </button>
           {active === i && (
             <div className="border-t-2 border-[#171820]/15 px-4 pb-4 pt-3 text-xs sm:text-sm leading-relaxed text-[#535744]">
-              {a}
+              {renderSocialMentions(a)}
             </div>
           )}
         </div>

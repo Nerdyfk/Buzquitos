@@ -4,6 +4,7 @@ import { FormEvent, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ExternalLink, LoaderCircle, Heart, Repeat, MessageCircle } from 'lucide-react';
 import { WhitelistTask, DEFAULT_WHITELIST_TASKS } from '@/types/whitelist-tasks';
+import { renderSocialMentions } from '@/lib/text-links';
 
 export default function WhitelistForm({
   isOpen = true,
@@ -116,7 +117,7 @@ export default function WhitelistForm({
                           TASK {taskNum}
                         </span>
                         <span className="font-bold text-xs sm:text-sm text-[#171820]">
-                          {task.headline}
+                          {renderSocialMentions(task.headline)}
                         </span>
                       </div>
 
@@ -147,7 +148,7 @@ export default function WhitelistForm({
                     {/* Task Description */}
                     {task.description && (
                       <p className="mt-2 text-[11px] sm:text-xs text-[#535744] leading-relaxed">
-                        {task.description}
+                        {renderSocialMentions(task.description)}
                       </p>
                     )}
 

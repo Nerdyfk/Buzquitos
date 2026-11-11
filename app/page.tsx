@@ -7,6 +7,7 @@ import CharacterShowcase from '@/components/CharacterShowcase';
 import ClientPageLoader from '@/components/ClientPageLoader';
 import { getCollectionSettings } from '@/lib/collection-settings';
 import { getWhitelistTasks } from '@/lib/whitelist-tasks';
+import { renderSocialMentions } from '@/lib/text-links';
 
 export const dynamic = 'force-dynamic';
 
@@ -161,10 +162,10 @@ export default async function Home() {
                   {idx + 1}
                 </span>
                 <div>
-                  <span className="font-bold">{task.headline}</span>
+                  <span className="font-bold">{renderSocialMentions(task.headline)}</span>
                   {task.description && (
                     <span className="block text-xs font-normal text-[#535744] mt-0.5">
-                      {task.description}
+                      {renderSocialMentions(task.description)}
                     </span>
                   )}
                 </div>
