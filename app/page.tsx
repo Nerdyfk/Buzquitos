@@ -174,18 +174,11 @@ export default async function Home() {
 
           <div className="mt-6 sm:mt-8 space-y-3 text-xs sm:text-sm font-semibold">
             {tasks.map((task, idx) => (
-              <div key={task.id || idx} className="flex items-start gap-3">
-                <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0 mt-0.5">
+              <div key={task.id || idx} className="flex items-center gap-3">
+                <span className="grid h-7 w-7 place-items-center border-2 border-[#171820] bg-[#f6d52b] font-mono shrink-0">
                   {idx + 1}
                 </span>
-                <div>
-                  <span className="font-bold">{renderSocialMentions(task.headline)}</span>
-                  {task.description && (
-                    <span className="block text-xs font-normal text-[#535744] mt-0.5">
-                      {renderSocialMentions(task.description)}
-                    </span>
-                  )}
-                </div>
+                <span>{renderSocialMentions(task.headline || task.description)}</span>
               </div>
             ))}
             <div className="flex items-center gap-3">
