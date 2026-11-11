@@ -7,14 +7,31 @@ import CharacterShowcase from '@/components/CharacterShowcase';
 import ClientPageLoader from '@/components/ClientPageLoader';
 import { getCollectionSettings } from '@/lib/collection-settings';
 import { getWhitelistTasks } from '@/lib/whitelist-tasks';
+import { DEFAULT_WHITELIST_TASKS, WhitelistTask } from '@/types/whitelist-tasks';
 import { renderSocialMentions } from '@/lib/text-links';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const settings = await getCollectionSettings();
-  const tasks = await getWhitelistTasks();
-  const collection = settings.collection_name;
+  let settings: Record<string, string> = {};
+  let tasks: WhitelistTask[] = DEFAULT_WHITELIST_TASKS;
+
+  try {
+    const [fetchedSettings, fetchedTasks] = await Promise.all([
+      getCollectionSettings().catch(() => ({} as Record<string, string>)),
+      getWhitelistTasks().catch(() => DEFAULT_WHITELIST_TASKS)
+    ]);
+    if (fetchedSettings && typeof fetchedSettings === 'object') {
+      settings = fetchedSettings as Record<string, string>;
+    }
+    if (Array.isArray(fetchedTasks) && fetchedTasks.length > 0) {
+      tasks = fetchedTasks;
+    }
+  } catch (err) {
+    console.error('Home data load error:', err);
+  }
+
+  const collection = settings.collection_name || 'Buzquitos';
   const details = [
     ['TOTAL SUPPLY', settings.supply ? Number(settings.supply).toLocaleString() : '5,555'],
     ['CATEGORY', 'Pixel PFP'],

@@ -3,32 +3,30 @@ import { MongoClient, Db } from 'mongodb';
 const rawUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/buzquitos';
 const uri = rawUri.trim().replace(/^["']|["']$/g, '');
 const options = {
-  serverSelectionTimeoutMS: 5000,
-  connectTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 4000,
+  connectTimeoutMS: 4000,
   maxPoolSize: 10
 };
-
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
 
 declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
   var _mongoIndexesInitialized: boolean | undefined;
 }
 
-if (process.env.NODE_ENV === 'development') {
+export function getClientPromise(): Promise<MongoClient> {
   if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+    const c = new MongoClient(uri, options);
+    global._mongoClientPromise = c.connect().catch(err => {
+      // Reset global promise on connection error so next call can retry
+      global._mongoClientPromise = undefined;
+      throw err;
+    });
   }
-  clientPromise = global._mongoClientPromise;
-} else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  return global._mongoClientPromise;
 }
 
 export async function getDb(): Promise<Db> {
-  const c = await clientPromise;
+  const c = await getClientPromise();
   const db = c.db();
   if (!global._mongoIndexesInitialized) {
     try {
@@ -52,11 +50,8 @@ export async function getDb(): Promise<Db> {
       ]);
       global._mongoIndexesInitialized = true;
     } catch {
-      // Ignore index errors during hot reload or restricted permissions
+      // Ignore index creation errors
     }
   }
   return db;
 }
-
-export default clientPromise;
-
