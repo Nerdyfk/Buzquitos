@@ -300,7 +300,13 @@ export default function AdminDashboard({ email }: { email: string }) {
             <div className="text-xs font-mono tracking-[.2em] text-[#c2ed55]">BUZQUITOS WHITELIST / CONTROL ROOM</div>
             <h1 className="mt-1 text-xl font-bold">Admin dashboard</h1>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <a
+              href="/admin/puzzle"
+              className="rounded-lg bg-[#c2ed55] px-3 py-2 text-xs font-bold text-[#171820] hover:bg-[#f6d52b]"
+            >
+              GTD Puzzle Admin ↗
+            </a>
             <span className="hidden text-xs text-white/50 sm:block">{email}</span>
             <button onClick={logout} className="flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-xs hover:bg-white/5 cursor-pointer">
               <LogOut size={14} /> Sign out

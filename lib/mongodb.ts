@@ -1,10 +1,16 @@
 import { MongoClient, Db } from 'mongodb';
 
-const rawUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/buzquitos';
-const uri = rawUri.trim().replace(/^["']|["']$/g, '');
+export function getCleanMongoUri(): string {
+  const raw = (process.env.MONGODB_URI || '').trim().replace(/^["']|["']$/g, '');
+  if (raw && !raw.toLowerCase().includes('sensitive') && /^mongodb(\+srv)?:\/\//i.test(raw)) {
+    return raw;
+  }
+  return 'mongodb://127.0.0.1:27017/buzquitos';
+}
+
 const options = {
-  serverSelectionTimeoutMS: 4000,
-  connectTimeoutMS: 4000,
+  serverSelectionTimeoutMS: 3000,
+  connectTimeoutMS: 3000,
   maxPoolSize: 10
 };
 
@@ -15,9 +21,9 @@ declare global {
 
 export function getClientPromise(): Promise<MongoClient> {
   if (!global._mongoClientPromise) {
+    const uri = getCleanMongoUri();
     const c = new MongoClient(uri, options);
     global._mongoClientPromise = c.connect().catch(err => {
-      // Reset global promise on connection error so next call can retry
       global._mongoClientPromise = undefined;
       throw err;
     });

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowDown, ArrowUpRight, Check, ShieldCheck, Zap } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import WhitelistForm from '@/components/WhitelistForm';
@@ -71,6 +72,9 @@ export default async function Home() {
             <a className="pixel-btn w-full sm:w-auto" href="#whitelist">
               APPLY FOR WHITELIST <ArrowUpRight size={17} />
             </a>
+            <Link className="pixel-btn red w-full sm:w-auto" href="/puzzle">
+              GTD PUZZLE <ArrowUpRight size={17} />
+            </Link>
             <a className="pixel-btn light w-full sm:w-auto" href="#about">
               MEET THE PROJECT <ArrowDown size={16} />
             </a>
