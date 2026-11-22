@@ -695,6 +695,18 @@ export function AdminPuzzleDashboard({ email }: { email: string }) {
           </button>
           <button
             type="button"
+            onClick={() => setActiveTab("tasks")}
+            className={`inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold transition ${
+              activeTab === "tasks"
+                ? "bg-[#c2ed55] text-[#171820]"
+                : "text-white/75 hover:bg-white/5"
+            }`}
+          >
+            <ListTodo className="h-4 w-4" />
+            Verification Tasks ({tasks.length})
+          </button>
+          <button
+            type="button"
             onClick={() => setActiveTab("settings")}
             className={`inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold transition ${
               activeTab === "settings"
@@ -892,6 +904,306 @@ export function AdminPuzzleDashboard({ email }: { email: string }) {
               </div>
             )}
           </section>
+        )}
+
+        {activeTab === "tasks" && (
+          <div className="max-w-4xl space-y-6">
+            <section className="admin-card p-6 sm:p-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-[#343744] pb-5">
+                <div>
+                  <h2 className="text-xl font-bold text-white">
+                    Whitelist Verification Tasks Manager
+                  </h2>
+                  <p className="mt-1 text-xs text-white/60">
+                    Add, edit, reorder, or delete tasks required for solvers to claim a GTD whitelist spot. Changes appear instantly in Step 3 on the puzzle page.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenAddTask}
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-[#c2ed55] px-4 py-2.5 text-xs font-black text-[#171820] hover:bg-[#f6d52b] shadow-[2px_2px_0_rgba(0,0,0,0.4)]"
+                >
+                  <Plus className="h-4 w-4" />
+                  ADD NEW TASK
+                </button>
+              </div>
+
+              {tasksMsg && (
+                <div className="mt-4 rounded-md border border-[#c2ed55]/40 bg-[#c2ed55]/10 px-4 py-3 text-xs font-bold text-[#c2ed55]">
+                  {tasksMsg}
+                </div>
+              )}
+
+              {tasksError && (
+                <div className="mt-4 rounded-md border border-[#e42c24]/40 bg-[#e42c24]/10 px-4 py-3 text-xs font-bold text-red-300">
+                  {tasksError}
+                </div>
+              )}
+
+              {tasksLoading ? (
+                <div className="mt-6 flex items-center justify-center py-12 text-xs text-white/50">
+                  Loading verification tasks...
+                </div>
+              ) : (
+                <div className="mt-6 space-y-3">
+                  {tasks.map((task, idx) => (
+                    <div
+                      key={task.id}
+                      className="flex flex-col gap-3 rounded-lg border border-[#343744] bg-[#11131a] p-4 sm:flex-row sm:items-center sm:justify-between"
+                    >
+                      {/* Left: Reorder controls */}
+                      <div className="flex items-center gap-3">
+                        <div className="flex flex-col gap-1">
+                          <button
+                            type="button"
+                            disabled={idx === 0 || tasksSaving}
+                            onClick={() => handleMoveTask(idx, -1)}
+                            className="rounded border border-[#343744] p-1 text-white/60 hover:border-[#c2ed55] hover:text-white disabled:opacity-30 cursor-pointer"
+                            title="Move Up"
+                          >
+                            <ChevronUp className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === tasks.length - 1 || tasksSaving}
+                            onClick={() => handleMoveTask(idx, 1)}
+                            className="rounded border border-[#343744] p-1 text-white/60 hover:border-[#c2ed55] hover:text-white disabled:opacity-30 cursor-pointer"
+                            title="Move Down"
+                          >
+                            <ChevronDown className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-mono text-xs font-bold text-[#c2ed55]">
+                              #{idx + 1}
+                            </span>
+                            <span className="text-sm font-bold text-white">
+                              {task.title}
+                            </span>
+                            {task.isRequired ? (
+                              <span className="rounded bg-[#e42c24] px-1.5 py-0.5 font-mono text-[10px] font-bold text-white">
+                                REQUIRED
+                              </span>
+                            ) : (
+                              <span className="rounded bg-[#343744] px-1.5 py-0.5 font-mono text-[10px] font-bold text-white/80">
+                                OPTIONAL
+                              </span>
+                            )}
+                            {task.needsUrlInput ? (
+                              <span className="rounded bg-[#f6d52b]/20 border border-[#f6d52b]/50 px-1.5 py-0.5 font-mono text-[10px] font-bold text-[#f6d52b]">
+                                PROOF URL REQUIRED
+                              </span>
+                            ) : (
+                              <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[10px] text-white/60">
+                                NO URL INPUT
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-white/60">
+                            <span className="font-mono text-[11px] text-white/40">Action Button:</span>
+                            <span className="rounded border border-[#343744] bg-[#1c1f29] px-2 py-0.5 font-mono text-[11px] font-bold text-[#c2ed55]">
+                              {task.actionLabel}
+                            </span>
+                            <span className="max-w-[260px] truncate font-mono text-[11px] text-white/40" title={task.actionUrl}>
+                              → {task.actionUrl}
+                            </span>
+                          </div>
+
+                          {task.needsUrlInput && task.urlInputDescription && (
+                            <div className="mt-1 text-[11px] text-white/50 italic">
+                              Note: {task.urlInputDescription}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Right: Actions */}
+                      <div className="flex items-center gap-2 self-end sm:self-center">
+                        <button
+                          type="button"
+                          disabled={tasksSaving}
+                          onClick={() => handleOpenEditTask(idx)}
+                          className="inline-flex cursor-pointer items-center gap-1 rounded border border-[#343744] bg-[#1c1f29] px-3 py-1.5 text-xs font-semibold text-white hover:border-[#c2ed55] hover:text-[#c2ed55]"
+                        >
+                          <Edit3 className="h-3.5 w-3.5" />
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          disabled={tasksSaving || tasks.length <= 1}
+                          onClick={() => handleDeleteTask(idx)}
+                          className="inline-flex cursor-pointer items-center gap-1 rounded border border-red-500/40 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-300 hover:bg-red-500/25 disabled:opacity-30"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          </div>
+        )}
+
+        {/* Task Add / Edit Modal */}
+        {taskModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+            <div className="relative w-full max-w-lg rounded-xl border border-[#343744] bg-[#171820] p-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-[#343744] pb-4">
+                <h3 className="text-base font-bold text-white">
+                  {editingTaskIndex !== null ? "Edit Verification Task" : "Add New Verification Task"}
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setTaskModalOpen(false)}
+                  className="rounded p-1 text-white/50 hover:bg-white/10 hover:text-white"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="mt-5 space-y-4 text-xs">
+                <div>
+                  <label className="mb-1 block font-semibold text-white/80">
+                    Task Title / Instruction *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Follow official Twitter/X account (@Buzquitos)"
+                    value={taskForm.title}
+                    onChange={(e) => setTaskForm((t) => ({ ...t, title: e.target.value }))}
+                    className="admin-field rounded-md"
+                  />
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block font-semibold text-white/80">
+                      Action Button Label *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. FOLLOW ON X, JOIN TELEGRAM"
+                      value={taskForm.actionLabel}
+                      onChange={(e) => setTaskForm((t) => ({ ...t, actionLabel: e.target.value }))}
+                      className="admin-field rounded-md font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block font-semibold text-white/80">
+                      Requirement Type
+                    </label>
+                    <select
+                      value={taskForm.isRequired ? "REQUIRED" : "OPTIONAL"}
+                      onChange={(e) =>
+                        setTaskForm((t) => ({
+                          ...t,
+                          isRequired: e.target.value === "REQUIRED",
+                        }))
+                      }
+                      className="admin-field rounded-md font-mono"
+                    >
+                      <option value="REQUIRED">REQUIRED (Must Complete)</option>
+                      <option value="OPTIONAL">OPTIONAL (Bonus Task)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-semibold text-white/80">
+                    Action Target URL *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. https://x.com/Buzquitos or https://discord.gg/..."
+                    value={taskForm.actionUrl}
+                    onChange={(e) => setTaskForm((t) => ({ ...t, actionUrl: e.target.value }))}
+                    className="admin-field rounded-md"
+                  />
+                  <p className="mt-1 text-[11px] text-white/50">
+                    Destination when solver clicks the action button. For tweet sharing, use tweet intent or compose URL.
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-[#343744] bg-[#11131a] p-3.5 space-y-3">
+                  <label className="flex cursor-pointer items-center gap-2.5 text-white/90 font-bold">
+                    <input
+                      type="checkbox"
+                      checked={taskForm.needsUrlInput}
+                      onChange={(e) =>
+                        setTaskForm((t) => ({ ...t, needsUrlInput: e.target.checked }))
+                      }
+                      className="h-4 w-4 accent-[#c2ed55]"
+                    />
+                    <span>Require solver to submit a Proof Link / URL</span>
+                  </label>
+
+                  {taskForm.needsUrlInput && (
+                    <div className="space-y-3 pt-2 border-t border-[#343744]/60">
+                      <div>
+                        <label className="mb-1 block font-semibold text-white/70 text-[11px]">
+                          Input Field Placeholder
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="https://x.com/username/status/..."
+                          value={taskForm.urlInputPlaceholder || ""}
+                          onChange={(e) =>
+                            setTaskForm((t) => ({
+                              ...t,
+                              urlInputPlaceholder: e.target.value,
+                            }))
+                          }
+                          className="admin-field rounded-md text-[11px]"
+                        />
+                      </div>
+                      <div>
+                        <label className="mb-1 block font-semibold text-white/70 text-[11px]">
+                          Solver Helper / Audit Description
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Paste direct link to your reply so admins can verify."
+                          value={taskForm.urlInputDescription || ""}
+                          onChange={(e) =>
+                            setTaskForm((t) => ({
+                              ...t,
+                              urlInputDescription: e.target.value,
+                            }))
+                          }
+                          className="admin-field rounded-md text-[11px]"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3 border-t border-[#343744] pt-4">
+                <button
+                  type="button"
+                  onClick={() => setTaskModalOpen(false)}
+                  className="rounded-lg border border-[#343744] px-4 py-2 text-xs font-bold text-white/80 hover:bg-white/5"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveTaskModal}
+                  className="rounded-lg bg-[#c2ed55] px-5 py-2 text-xs font-black text-[#171820] hover:bg-[#f6d52b]"
+                >
+                  Save Task
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
         {activeTab === "settings" && (
