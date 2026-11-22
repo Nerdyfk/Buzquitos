@@ -27,8 +27,14 @@ import {
   Ban,
   Pause,
   Play,
+  Plus,
+  Edit3,
+  ChevronUp,
+  ChevronDown,
+  ListTodo,
 } from "lucide-react";
-import type { CampaignSnapshot } from "@/types/gtd";
+import type { CampaignSnapshot, CampaignTask } from "@/types/gtd";
+import { DEFAULT_CAMPAIGN_TASKS } from "@/types/gtd";
 
 interface OverviewMetrics {
   totalUsers: number;
@@ -94,8 +100,28 @@ interface AuditLogRow {
 export function AdminPuzzleDashboard({ email }: { email: string }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<
-    "submissions" | "settings" | "audit"
+    "submissions" | "tasks" | "settings" | "audit"
   >("submissions");
+
+  // Tasks Management state
+  const [tasks, setTasks] = useState<CampaignTask[]>(DEFAULT_CAMPAIGN_TASKS);
+  const [tasksLoading, setTasksLoading] = useState(false);
+  const [tasksSaving, setTasksSaving] = useState(false);
+  const [tasksMsg, setTasksMsg] = useState<string | null>(null);
+  const [tasksError, setTasksError] = useState<string | null>(null);
+
+  const [taskModalOpen, setTaskModalOpen] = useState(false);
+  const [editingTaskIndex, setEditingTaskIndex] = useState<number | null>(null);
+  const [taskForm, setTaskForm] = useState<CampaignTask>({
+    id: "",
+    title: "",
+    actionLabel: "OPEN LINK",
+    actionUrl: "https://x.com/Buzquitos",
+    isRequired: true,
+    needsUrlInput: false,
+    urlInputPlaceholder: "https://x.com/username/status/...",
+    urlInputDescription: "Paste proof URL here.",
+  });
 
   const [overview, setOverview] = useState<OverviewMetrics | null>(null);
   const [campaign, setCampaign] = useState<CampaignSnapshot | null>(null);
@@ -195,6 +221,114 @@ export function AdminPuzzleDashboard({ email }: { email: string }) {
     }
   }, []);
 
+  const loadTasks = useCallback(async () => {
+    setTasksLoading(true);
+    setTasksError(null);
+    try {
+      const res = await fetch("/api/gtd/admin/tasks", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.tasks)) {
+          setTasks(data.tasks);
+        }
+      }
+    } catch {
+      setTasksError("Failed to load verification tasks.");
+    } finally {
+      setTasksLoading(false);
+    }
+  }, []);
+
+  async function handleSaveTasksList(updatedList: CampaignTask[]) {
+    setTasksSaving(true);
+    setTasksMsg(null);
+    setTasksError(null);
+    try {
+      const res = await fetch("/api/gtd/admin/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tasks: updatedList }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setTasksError(data.error || "Failed to save verification tasks.");
+        return;
+      }
+      setTasks(data.tasks);
+      setTasksMsg("Verification tasks updated successfully.");
+      setTimeout(() => setTasksMsg(null), 4000);
+    } catch {
+      setTasksError("Network error while saving tasks.");
+    } finally {
+      setTasksSaving(false);
+    }
+  }
+
+  function handleOpenAddTask() {
+    setEditingTaskIndex(null);
+    setTaskForm({
+      id: `task_${Date.now()}`,
+      title: "",
+      actionLabel: "FOLLOW ON X",
+      actionUrl: "https://x.com/Buzquitos",
+      isRequired: true,
+      needsUrlInput: false,
+      urlInputPlaceholder: "https://x.com/username/status/...",
+      urlInputDescription: "Paste direct link to your reply or submission.",
+    });
+    setTaskModalOpen(true);
+  }
+
+  function handleOpenEditTask(idx: number) {
+    setEditingTaskIndex(idx);
+    setTaskForm({ ...tasks[idx] });
+    setTaskModalOpen(true);
+  }
+
+  function handleDeleteTask(idx: number) {
+    if (tasks.length <= 1) {
+      alert("At least 1 verification task must remain in the campaign.");
+      return;
+    }
+    if (!confirm(`Are you sure you want to delete task #${idx + 1}: "${tasks[idx].title}"?`)) return;
+    const next = tasks.filter((_, i) => i !== idx);
+    setTasks(next);
+    handleSaveTasksList(next);
+  }
+
+  function handleMoveTask(idx: number, dir: -1 | 1) {
+    const target = idx + dir;
+    if (target < 0 || target >= tasks.length) return;
+    const next = [...tasks];
+    const temp = next[idx];
+    next[idx] = next[target];
+    next[target] = temp;
+    setTasks(next);
+    handleSaveTasksList(next);
+  }
+
+  function handleSaveTaskModal() {
+    if (!taskForm.title.trim() || taskForm.title.trim().length < 3) {
+      alert("Please provide a task title with at least 3 characters.");
+      return;
+    }
+    let next: CampaignTask[];
+    if (editingTaskIndex !== null) {
+      next = tasks.map((t, i) => (i === editingTaskIndex ? { ...taskForm } : t));
+    } else {
+      next = [
+        ...tasks,
+        {
+          ...taskForm,
+          id: taskForm.id || `task_${Date.now()}`,
+        },
+      ];
+    }
+    setTasks(next);
+    setTaskModalOpen(false);
+    handleSaveTasksList(next);
+  }
+
   useEffect(() => {
     loadOverview();
   }, [loadOverview]);
@@ -208,6 +342,12 @@ export function AdminPuzzleDashboard({ email }: { email: string }) {
       loadAuditLogs();
     }
   }, [activeTab, loadAuditLogs]);
+
+  useEffect(() => {
+    if (activeTab === "tasks") {
+      loadTasks();
+    }
+  }, [activeTab, loadTasks]);
 
   function openInspector(sub: AdminSubmissionRow) {
     setSelectedSub(sub);

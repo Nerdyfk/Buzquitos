@@ -77,17 +77,6 @@ export default async function PuzzlePage() {
             <strong>{campaign.maxWinners} GTD whitelist spots</strong>.
           </p>
 
-          <div className="mt-5 max-w-[540px] border-2 border-[#171820] bg-[#f7f7ed] p-3.5 text-xs font-medium text-[#171820] shadow-[4px_4px_0_#171820]">
-            <div className="flex items-start gap-2.5">
-              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#e42c24]" />
-              <span>
-                <strong>Important:</strong> Solving your puzzle unlocks the claim form and
-                lets you reserve a provisional spot. Final GTD whitelist confirmation is
-                awarded <strong>only after manual admin verification</strong> of all 5
-                social tasks.
-              </span>
-            </div>
-          </div>
 
           <div className="mt-7 flex flex-col flex-wrap gap-3 sm:flex-row">
             <a href="#challenge" className="pixel-btn w-full sm:w-auto">
